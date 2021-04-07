@@ -32,7 +32,7 @@ var server=http.createServer(function(request, response){
     */
 
     //혹여나, 파라미터가 get방식으로 전송되어 올 경우엔 request.url의 파라미터까지도 주소로
-    //간주될 수 있기 때문에 파라미터를 제거하자
+    //간주될 수 있기 때문에 파라미터를 제거하자(파라미터는 query 로 전달된다)
     // console.log("url파싱 결과는", url.parse(request.url));
     var requestUrl=url.parse(request.url).pathname; //파라미터를 제외한 주소
 
@@ -151,7 +151,7 @@ function getList2(requset, response){
 //이 방법은 디자인 마저도 프로그램 코드에서 감당하고 있기 떄문에,
 // 유지보수성이 너무 낮다. 따라서 프로그램 코드와 디자인은 분리되어야 좋다.
 // 따라서 아래의 방법은 두번다시는 사용하지 XX (개발규모가 좀 커질때)
-function getList(request, response){
+function getList1(request, response){
     //회원목록 가져오기
     //연결된 DB 커넥션이 없으므로, mysql에 재접속하자
     var con=mysql.createConnection(conStr);
@@ -243,6 +243,7 @@ function getDetail(request, response){
 
     // var x=1;// 비동기방식이므로 readFile이 다 되기 전에도 실행이된다
 }
+
 function edit(request, response){
     //쿼리문에 사용될 4개의 파라미터 값을 받아서 변수에 담아보자
     //글 수정은 클라이언트로부터 post 방식으로 서버에 전송되기 때문에, 그 데이터가 body 에 들어있다.
@@ -265,8 +266,9 @@ function edit(request, response){
         sql+=obj.user_pass+"', user_name='"+obj.user_name+"'";
         sql+=" where member_id="+obj.member_id;
 
-        //쿼리문 실행하여 수정완료 하세요
-        //수정 완료 메세지 alert()으로 띄우고 상세보기 페이지를 다시 보여주기
+        //쿼리문 실행하여 수정을 완료하세요, 
+        //수정 완료 메시지 alert()으로 띄우고, 상세보기 페이지를 다시 보여주기!! 
+        //단, 상세보기로 이동시 에러가 나면 안된다!!!!!!!!!!!!! 수정된 내용된 내용이 반영되어 있어야 함
         var con=mysql.createConnection(conStr);
         /*
         DML(insert, update, delete):매개변수 2개 
@@ -284,9 +286,8 @@ function edit(request, response){
 
     });
 
-    
-
 }
+
 function del(request, response){
     var param=url.parse(request.url, true).query;
 
