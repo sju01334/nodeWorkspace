@@ -64,7 +64,7 @@ app.get("/notice/list",function(request,response){
        con.end(); //mysql 접속 끊기
     });
 });
-//지정한 post 방식dmfh 클라이언트의 요청을 받음
+//지정한 post 방식으로 클라이언트의 요청을 받음
 app.post("/notice/regist", function(request, response){
     //1) 클라이언트가 전송한 파라미터들을 받자
     // console.log(request.body);
@@ -80,7 +80,7 @@ app.post("/notice/regist", function(request, response){
     var sql="insert into notice(title, writer, content)";
     sql+=" values('"+title+"','"+writer+"','"+content+"')";
     */
-    //바인드 변수르르 이용하면, 따옴표 문제를 고민하지 않아도 됨, 단 주의!
+    //바인드 변수를 이용하면, 따옴표 문제를 고민하지 않아도 됨, 단 주의!
     //바인드 변수의 사용목적은 따옴표 때문이 아니라, DB 성능과 관련이있다 (java 시간에 자세히 할 예정)
     var sql="insert into notice(title, writer, content) values(?,?,?)";
 
@@ -94,7 +94,7 @@ app.post("/notice/regist", function(request, response){
         con.end();
     });
 });
-//목록요청 처리
+//상세보기 요청 처리
 app.get("/notice/detail", function(request, response){
     //get 방식으로 , 헤더를 통해 전송되어온 파라미터를 확인해보자
     // console.log(request.query);
